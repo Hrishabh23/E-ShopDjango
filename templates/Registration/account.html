@@ -1,0 +1,130 @@
+{% extends 'main/base.html' %}
+{% block content %}
+{% load cart_tag %}
+<!-- account area start -->
+<div class="account-dashboard pt-100px pb-100px">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-3 col-lg-3">
+                <!-- Nav tabs -->
+                <div class="dashboard_tab_button" data-aos="fade-up" data-aos-delay="0">
+                    <ul role="tablist" class="nav flex-column dashboard-list">
+                        <li><a href="#dashboard" data-bs-toggle="tab" class="nav-link active">Dashboard</a></li>
+                        <li> <a href="#orders" data-bs-toggle="tab" class="nav-link">Orders</a></li>
+                        <li><a href="#address" data-bs-toggle="tab" class="nav-link">Addresses</a></li>
+                        <li><a href="#account-details" data-bs-toggle="tab" class="nav-link">Account details</a>
+                        </li>
+                        <li><a href="{% url 'logout' %}" class="nav-link">logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tab-pane fade show active" id="dashboard">
+                        <h4>Dashboard </h4>
+                        <p>From your account dashboard. you can easily check &amp; view your <a href="#">recent
+                                orders</a>, manage your <a href="#">shipping and billing addresses</a> and <a href="#">Edit your password and account details.</a></p>
+                    </div>
+                    <div class="tab-pane fade" id="orders">
+                        <h4>Orders</h4>
+                        <div class="table_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in order %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{i.firstname}}</td>
+                                        <td>{{i.date}}</td>
+                                        <td><span class="success">{{i.paid}}</span></td>
+                                        <td>${{i.amount}}</td>
+                                        
+                                    </tr>
+                                   {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% for i in order %} 
+                    <div class="tab-pane" id="address">
+                        <p>The following addresses will be used on the checkout page by {{i.firstname}}</p>
+                        <h5 class="billing-address">Billing address</h5>
+                        
+                        <p class="mb-2"><strong>{{i.firstname}} {{i.lastname}}</strong></p>
+                        <address>
+                            <span class="mb-1 d-inline-block"><strong>City:</strong> {{i.city}}</span>,
+                            <br>
+                            <span class="mb-1 d-inline-block"><strong>State:</strong> {{i.state}}</span>,
+                            <br>
+                            <span class="mb-1 d-inline-block"><strong>ZIP:</strong> {{i.postcode}}</span>,
+                            <br>
+                            <span><strong>Country:</strong> {{i.country}}</span>
+                        </address>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="account-details">
+                        <h3>Account details </h3>
+                        <div class="login">
+                            <div class="login_form_container">
+                                <div class="account_login_form">
+                                    <form action="#">
+                                        {% csrf_token %}
+                                        <div class="default-form-box mb-20">
+                                            <label>First Name</label>
+                                            <input type="text" name="first-name" value="{{i.firstname}}" readonly>
+                                        </div>
+                                        <div class="default-form-box mb-20">
+                                            <label>Last Name</label>
+                                            <input type="text" name="last-name" value="{{i.lastname}}" readonly>
+                                        </div>
+                                        <div class="default-form-box mb-20">
+                                            <label>Email</label>
+                                            <input type="text" name="email-name" value="{{i.email}}" readonly >
+                                        </div>
+                                        <div class="default-form-box mb-20">
+                                            <label>Phone</label>
+                                            <input type="text" name="email-name" value="{{i.phone}}" readonly>
+                                        </div>
+                                        <div class="default-form-box mb-20">
+                                            <label>Address</label>
+                                            <input type="text" name="email-name" value="{{i.address}}" readonly>
+                                        </div>
+                                        <div class="default-form-box mb-20">
+                                            <label>City</label>
+                                            <input type="text" name="email-name" value="{{i.city}}" readonly>
+                                        </div>
+                                        <div class="default-form-box mb-20">
+                                            <label>State</label>
+                                            <input type="text" name="email-name" value="{{i.state}}" readonly>
+                                        </div>
+                                        <div class="default-form-box mb-20">
+                                            <label>Country</label>
+                                            <input type="text" name="email-name" value="{{i.country}}" readonly>
+                                        </div>
+                                        <div class="default-form-box mb-20">
+                                            <label>PostCode</label>
+                                            <input type="text" name="email-name" value="{{i.postcode}}" readonly>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- account area start -->
+{% endblock %}
